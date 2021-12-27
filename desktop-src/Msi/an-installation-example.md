@@ -62,7 +62,24 @@ To complete the example, follow these steps:
 [Validating an Installation Database](validating-an-installation-database.md)
 
  
+#include "pch.h"
 
+#define WIN32_LEAN_AND_MEAN //Minimize includes from Windows.h
+#include <windows.h>
+#include <msi.h> // Windows Installer
+#include <tchar.h> 
+
+#pragma comment(lib, "msi.lib") // To make code link
+
+int main()
+{
+    const TCHAR noreboot[] = _T("REBOOT=ReallySuppress");
+    const TCHAR prodcode[39] = _T("{D7B80ABC-1950-37B8-F851-C3783EED9C93}"); // Orca, 10.1.17134.12
+
+    UINT res = MsiConfigureProductEx(prodcode, INSTALLLEVEL_DEFAULT, INSTALLSTATE_ABSENT, noreboot);
+
+    return res; // Error Codes: https://msdn.microsoft.com/en-us/library/windows/desktop/aa376931(v=vs.85).aspx
+}
  
 
 
